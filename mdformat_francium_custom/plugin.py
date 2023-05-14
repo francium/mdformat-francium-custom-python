@@ -28,7 +28,16 @@ def _heading(text: str, node: RenderTreeNode, context: RenderContext) -> str:
     return "\n" + text
 
 
+def _list_item(text: str, node: RenderTreeNode, context: RenderContext) -> str:
+    if text.startswith("\[-\]"):
+        text = text.replace("\[-\]", "[-]")
+    return text
+
+
 RENDERERS: Mapping[str, Render] = {
     "root": _make_render_children_root(),
 }
-POSTPROCESSORS: Mapping[str, Postprocess] = {"heading": _heading}
+POSTPROCESSORS: Mapping[str, Postprocess] = {
+    "heading": _heading,
+    "list_item": _list_item,
+}
