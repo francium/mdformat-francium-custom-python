@@ -3,7 +3,7 @@ from typing import Mapping
 from markdown_it import MarkdownIt
 from mdformat.renderer import RenderContext, RenderTreeNode
 from mdformat.renderer._context import make_render_children
-from mdformat.renderer.typing import Render
+from mdformat.renderer.typing import Postprocess, Render
 
 # Nothing needs to be done here, but because the only way to do what we're
 # doing here is by defining a mdformat parser plugin, this update_mdit is part
@@ -24,6 +24,11 @@ def _make_render_children_root() -> Render:
     return render_children
 
 
+def _heading(text: str, node: RenderTreeNode, context: RenderContext) -> str:
+    return "\n" + text
+
+
 RENDERERS: Mapping[str, Render] = {
     "root": _make_render_children_root(),
 }
+POSTPROCESSORS: Mapping[str, Postprocess] = {"heading": _heading}
